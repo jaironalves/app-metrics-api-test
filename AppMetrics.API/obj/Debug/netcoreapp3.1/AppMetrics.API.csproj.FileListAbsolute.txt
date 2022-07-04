@@ -1,6 +1,0 @@
-C:\Users\Jairon\source\repos\AppMetrics.API\AppMetrics.API\obj\Debug\netcoreapp3.1\AppMetrics.API.csproj.AssemblyReference.cache
-C:\Users\Jairon\source\repos\AppMetrics.API\AppMetrics.API\obj\Debug\netcoreapp3.1\AppMetrics.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Jairon\source\repos\AppMetrics.API\AppMetrics.API\obj\Debug\netcoreapp3.1\AppMetrics.API.AssemblyInfoInputs.cache
-C:\Users\Jairon\source\repos\AppMetrics.API\AppMetrics.API\obj\Debug\netcoreapp3.1\AppMetrics.API.AssemblyInfo.cs
-C:\Users\Jairon\source\repos\AppMetrics.API\AppMetrics.API\obj\Debug\netcoreapp3.1\AppMetrics.API.csproj.CoreCompileInputs.cache
-C:\Users\Jairon\source\repos\AppMetrics.API\AppMetrics.API\obj\Debug\netcoreapp3.1\AppMetrics.API.MvcApplicationPartsAssemblyInfo.cache
