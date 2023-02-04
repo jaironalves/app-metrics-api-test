@@ -1,5 +1,6 @@
 using AppMetricsTest.API.Metrics;
 using AppMetricsTest.API.Metrics.HttpClient;
+using AppMetricsTest.API.Metrics.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +49,8 @@ namespace AppMetricsTest.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<RequestMiddleware>();
 
             app.UseRouting();
 

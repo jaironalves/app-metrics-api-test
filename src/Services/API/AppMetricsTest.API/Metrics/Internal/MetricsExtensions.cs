@@ -6,7 +6,7 @@ using System;
 
 namespace AppMetricsTest.API.Metrics.Internal
 {
-    internal static class MetricsExtensions
+    public static class MetricsExtensions
     {
         private static MetricTags GetTags(IRequestAccessor accessor)
         {

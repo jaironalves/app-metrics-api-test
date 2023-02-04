@@ -36,7 +36,7 @@ namespace AppMetricsTest.API.Controllers
         {
             var request = new HttpRequestMessage(
             HttpMethod.Post,
-            "http://localhost:6000/execute");
+            "http://appmetricsapipost:90/execute");
 
             var command = GetCommand();
 
@@ -120,7 +120,7 @@ namespace AppMetricsTest.API.Controllers
                 4 => "SESSION04",
                 _ => "",
             };
-            
+
         }
 
         private string GetCommand()

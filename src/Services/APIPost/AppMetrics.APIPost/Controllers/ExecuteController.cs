@@ -22,7 +22,8 @@ namespace AppMetrics.APIPost.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] PostRequest postRequest)
         {
-            //await Task.Delay(new Random().Next(500, 3000));
+            var delayMs = (new Random().Next(0, 3) * 1000) + new Random().Next(200, 999);
+            await Task.Delay(delayMs);
             return Ok();
         }
 

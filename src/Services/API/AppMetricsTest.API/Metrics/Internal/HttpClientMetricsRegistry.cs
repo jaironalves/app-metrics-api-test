@@ -1,4 +1,6 @@
 ﻿using App.Metrics;
+using App.Metrics.BucketHistogram;
+using App.Metrics.BucketTimer;
 using App.Metrics.Counter;
 using App.Metrics.Gauge;
 using App.Metrics.Meter;
@@ -13,6 +15,30 @@ namespace AppMetricsTest.API.Metrics.Internal
     internal static class HttpClientMetricsRegistry
     {
         public static string ContextName = "HttpClient.Requests";
+
+        public static string ContextNameC = "Custom.Requests";
+
+        public static class BucketHistograms
+        {
+            public static class BucketTimers
+            {
+                public static readonly Func<double[], BucketTimerOptions> EndpointRequestTransactionDuration = buckets => new BucketTimerOptions
+                {
+                    Context = ContextNameC,
+                    Name = "Transactions Per Endpoint",
+                    MeasurementUnit = Unit.Requests,
+                    Buckets = buckets
+                };
+
+                public static readonly Func<double[], BucketTimerOptions> RequestTransactionDuration = buckets => new BucketTimerOptions
+                {
+                    Context = ContextNameC,
+                    Name = "Transactions",
+                    MeasurementUnit = Unit.Requests,
+                    Buckets = buckets
+                };
+            }
+        }
 
         public static class Counters
         {
