@@ -49,7 +49,7 @@ namespace AppMetricsTest.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMiddleware<RequestMiddleware>();
 
             app.UseRouting();

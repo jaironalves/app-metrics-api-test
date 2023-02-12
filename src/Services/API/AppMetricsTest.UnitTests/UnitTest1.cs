@@ -107,6 +107,7 @@ namespace AppMetricsTest.UnitTests
                 .Returns(postRequest);
 
             IMetrics metrics = AppMetrics.CreateDefaultBuilder()
+                //.Report.Using()
                 .Build();
 
             //var metrics = metricsRoot as IMetrics;
@@ -122,9 +123,21 @@ namespace AppMetricsTest.UnitTests
             metrics.DecrementInProgressRequests(mockAccessor.Object);
 
             // Assert
-            var metricsFilter = new MetricsFilter().WhereContext("HttpClient.Requests");
-            var metricsDataValueSource = metrics.Snapshot.Get(metricsFilter);
-            var metricsContextValueSource = metricsDataValueSource.Contexts.Single();
+
+
+            var metricsContextValueSource = metrics.Snapshot.GetForContext("HttpClient.Requests");
+
+            metrics.Manage.Reset();
+
+            //metrics.Snapshot.GetMeterValue()
+
+            //metrics.
+
+            //
+
+            var metricsContextValueSource02 = metrics.Snapshot.GetForContext("HttpClient.Requests");
+
+            //var metricsContextValueSource = metricsDataValueSource.Contexts.Single();
 
             var counterValueSource = metricsContextValueSource.Counters.Single();
 
