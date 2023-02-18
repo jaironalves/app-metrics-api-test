@@ -9,28 +9,25 @@ using System.Threading;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using AppMetricsTest.API.Provider;
 
 namespace AppMetricsTest.API.Metrics.Formatters
 {
     public class MetricsPrometheusAutomaticReset : IMetricsPrometheusAutomaticReset
-    {
-        private readonly IHttpContextAccessor httpContextAccessor;
+    {        
         private readonly IMetrics metrics;
         private readonly MetricCustomOptions options;
-
+        private readonly IDateTimeProvider dateTimeProvider;
         private readonly MetricsPrometheusTextOutputFormatter metricsPrometheus;
 
         public DateTime? DateTimeReset { get; private set; } = null;
 
-        public MetricsPrometheusAutomaticReset(IHttpContextAccessor httpContextAccessor, IMetricsRoot metrics, IOptions<MetricCustomOptions> options)
-        {
-            this.httpContextAccessor = httpContextAccessor;
+        public MetricsPrometheusAutomaticReset(IMetricsRoot metrics, IOptions<MetricCustomOptions> options, IDateTimeProvider dateTimeProvider)
+        {            
             this.metrics = metrics;
             this.options = options.Value;
-            metricsPrometheus = metrics
-                .OutputMetricsFormatters
-                .OfType<MetricsPrometheusTextOutputFormatter>()
-                .First();
+            this.dateTimeProvider = dateTimeProvider;
+            metricsPrometheus = new MetricsPrometheusTextOutputFormatter();
         }
 
         public MetricsMediaTypeValue MediaType => metricsPrometheus.MediaType;
@@ -48,14 +45,14 @@ namespace AppMetricsTest.API.Metrics.Formatters
 
             if (!DateTimeReset.HasValue)
             {
-                DateTimeReset = DateTime.Now.Add(timeSpanInterval);
+                DateTimeReset = dateTimeProvider.Now.Add(timeSpanInterval);
                 return;
             }
 
-            if (DateTime.Now > DateTimeReset)
+            if (dateTimeProvider.Now > DateTimeReset)
             {
                 var dateTimeResetNext = DateTimeReset?.Add(timeSpanInterval);
-                if (DateTime.Now > dateTimeResetNext)
+                if (dateTimeProvider.Now > dateTimeResetNext)
                 {
                     DateTimeReset = null;
                     return;
@@ -68,23 +65,20 @@ namespace AppMetricsTest.API.Metrics.Formatters
 
         public async Task WriteAsync(Stream output, MetricsDataValueSource metricsData, CancellationToken cancellationToken = default)
         {
-            await metricsPrometheus.WriteAsync(output, metricsData, cancellationToken);
-
-            var context = httpContextAccessor?.HttpContext;
-
+            await metricsPrometheus.WriteAsync(output, metricsData, cancellationToken);                        
             CheckClearContextsInterval();
 
 
 
 
-            var metricsContextValueSource02 = metrics.Snapshot.GetForContext("Custom.Requests");
+            //var metricsContextValueSource02 = metrics.Snapshot.GetForContext("Custom.Requests");
 
-            //var firt = metricsRoot.Reporters.First();
-            var value = metricsContextValueSource02.BucketTimers.FirstOrDefault();
-            if (value != null)
-            {
+            ////var firt = metricsRoot.Reporters.First();
+            //var value = metricsContextValueSource02.BucketTimers.FirstOrDefault();
+            //if (value != null)
+            //{
 
-            }
+            //}
         }
 
     }

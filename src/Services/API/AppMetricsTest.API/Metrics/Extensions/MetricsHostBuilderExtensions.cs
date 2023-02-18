@@ -13,15 +13,30 @@ namespace AppMetricsTest.API.Metrics.Extensions
 {
     public static class MetricsHostBuilderExtensions
     {
+        private static bool metricsBuilt;
+
         public static IHostBuilder UsePrometheusMetrics(this IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureMetricsWithDefaults((HostBuilderContext context, IMetricsBuilder metricsBuilder) =>
-             {
-                 metricsBuilder
-                     .OutputMetrics.AsPrometheusPlainText();
-             })
+            //if (!metricsBuilt)
+            //{
+            //    hostBuilder
+            //        .ConfigureMetricsWithDefaults((HostBuilderContext context, IMetricsBuilder metricsBuilder) =>
+            //        {
+            //            metricsBuilder
+            //                .OutputMetrics.AsPrometheusPlainText();
+            //        });
+            //    metricsBuilt = true;
+            //};
+
+            hostBuilder            
             .ConfigureServices(services =>
             {
+                var metricsRoot = AppMetrics.CreateDefaultBuilder()
+                    .OutputMetrics.AsPrometheusPlainText()
+                    .Build();
+
+                services.AddMetrics(metricsRoot);
+
                 services.AddSingleton<IMetricsPrometheusAutomaticReset, MetricsPrometheusAutomaticReset>();
                 services.ConfigureOptions<MetricCustomOptionsSetup>();
                 services.ConfigureOptions<MetricEndpointsOptionsSetup>();
